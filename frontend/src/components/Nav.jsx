@@ -1,17 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Notifications from './Notifications'
+import api from '../api'
 
 export default function Nav(){
   const navigate = useNavigate()
   const token = typeof window !== 'undefined' ? localStorage.getItem('tn_token') : null
   const { t, i18n } = useTranslation()
+  const [unread, setUnread] = useState(0)
 
   function changeLang(e){
     const l = e.target.value
     i18n.changeLanguage(l)
   }
+
+  useEffect(()=>{
+    let mounted = true
+    async function loadUnread(){
+      if (!token) return
+      try{
+        const res = await api.get('/notifications')
+        if (!mounted) return
+        setUnread(res.data.unread || 0)
+      }catch(e){ }
+    }
+    loadUnread()
+    const handler = (e) => setUnread(e.detail?.unread || 0)
+    window.addEventListener('notifications:updated', handler)
+    return ()=>{ mounted = false; window.removeEventListener('notifications:updated', handler) }
+  }, [token])
 
   function logout(){
     localStorage.removeItem('tn_token')
@@ -36,7 +54,7 @@ export default function Nav(){
             <>
               <Link to="/dashboard" className="text-gray-700 font-medium">Dashboard</Link>
                   <Link to="/parent" className="ml-2 text-gray-600 hover:text-indigo-600">{t('app.parent_portal')}</Link>
-                  <Link to="/notifications" className="ml-2 text-gray-600 hover:text-indigo-600">Notifications</Link>
+                  <Link to="/notifications" className="ml-2 text-gray-600 hover:text-indigo-600">Notifications{unread>0 && <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium bg-red-500 text-white rounded-full">{unread}</span>}</Link>
               <button onClick={logout} className="ml-2 text-sm px-3 py-1 bg-red-50 text-red-600 rounded">Logout</button>
             </>
           ) : (

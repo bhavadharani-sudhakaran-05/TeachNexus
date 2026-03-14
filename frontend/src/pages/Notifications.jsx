@@ -10,6 +10,8 @@ export default function NotificationsPage(){
       const res = await api.get('/notifications')
       setItems(res.data.items || [])
       setUnread(res.data.unread || 0)
+      // notify Nav about unread count
+      window.dispatchEvent(new CustomEvent('notifications:updated', { detail: { unread: res.data.unread || 0 } }))
     }catch(e){ console.error(e) }
   }
 

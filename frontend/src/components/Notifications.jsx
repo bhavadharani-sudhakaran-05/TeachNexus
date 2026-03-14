@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
+import api from '../api'
 
 export default function Notifications(){
   const [notes, setNotes] = useState([])
@@ -16,8 +17,12 @@ export default function Notifications(){
       setNotes(s => [item, ...s])
       // auto remove after 6s
       setTimeout(()=> setNotes(s => s.filter(x => x.id !== id)), 6000)
-      // optionally refresh unread count UI by calling notifications endpoint
-      try { await fetch((import.meta.env.VITE_API_BASE || 'http://localhost:5000') + '/notifications', { headers: { Authorization: token ? `Bearer ${token}` : '' } }) } catch(e){}
+      // refresh unread count UI by calling notifications endpoint and dispatch event
+      try {
+        const res = await api.get('/notifications')
+        const unread = res.data.unread || 0
+        window.dispatchEvent(new CustomEvent('notifications:updated', { detail: { unread } }))
+      } catch(e){}
     })
 
     return ()=> socket.disconnect()
