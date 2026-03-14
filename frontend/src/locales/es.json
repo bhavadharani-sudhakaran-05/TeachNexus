@@ -1,0 +1,14 @@
+{
+  "app": {
+    "resources": "Recursos",
+    "planner": "Planificador",
+    "communities": "Comunidades",
+    "chat": "Chat",
+    "dashboard": "Tablero",
+    "login": "Iniciar sesión",
+    "signup": "Regístrate",
+    "parent_portal": "Portal de padres",
+    "link_child": "Vincular hijo",
+    "children": "Hijos"
+  }
+}

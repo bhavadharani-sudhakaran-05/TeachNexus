@@ -1,0 +1,14 @@
+{
+  "app": {
+    "resources": "Resources",
+    "planner": "Planner",
+    "communities": "Communities",
+    "chat": "Chat",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "signup": "Sign up",
+    "parent_portal": "Parent Portal",
+    "link_child": "Link Child",
+    "children": "Children"
+  }
+}
