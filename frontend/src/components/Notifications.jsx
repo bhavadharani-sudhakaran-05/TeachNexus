@@ -10,12 +10,14 @@ export default function Notifications(){
     const socket = io(url, { auth: { token } })
 
     socket.on('connect', ()=>{})
-    socket.on('notification', (n) => {
+    socket.on('notification', async (n) => {
       const id = Date.now() + Math.random()
       const item = { id, ...n }
       setNotes(s => [item, ...s])
       // auto remove after 6s
       setTimeout(()=> setNotes(s => s.filter(x => x.id !== id)), 6000)
+      // optionally refresh unread count UI by calling notifications endpoint
+      try { await fetch((import.meta.env.VITE_API_BASE || 'http://localhost:5000') + '/notifications', { headers: { Authorization: token ? `Bearer ${token}` : '' } }) } catch(e){}
     })
 
     return ()=> socket.disconnect()

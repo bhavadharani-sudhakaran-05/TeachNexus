@@ -29,6 +29,13 @@ async function evaluateAndAward(userId){
       awarded.push(b.key)
       // log badge awarded event
       try { await Event.create({ type: 'badge_awarded', user: userId, meta: { badge: b.key } }) } catch(e){ console.error('badge event log failed', e) }
+      // persist a user notification
+      try {
+        const Notification = require('../models/Notification')
+        await Notification.create({ user: userId, type: 'badge_awarded', title: `Badge: ${b.title}`, body: b.description || `You earned the ${b.title} badge`, meta: { badge: b.key } })
+      } catch (e) {
+        console.error('notification persist failed', e)
+      }
     }
   }
 

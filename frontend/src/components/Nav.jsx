@@ -35,7 +35,8 @@ export default function Nav(){
           {token ? (
             <>
               <Link to="/dashboard" className="text-gray-700 font-medium">Dashboard</Link>
-              <Link to="/parent" className="ml-2 text-gray-600 hover:text-indigo-600">{t('app.parent_portal')}</Link>
+                  <Link to="/parent" className="ml-2 text-gray-600 hover:text-indigo-600">{t('app.parent_portal')}</Link>
+                  <Link to="/notifications" className="ml-2 text-gray-600 hover:text-indigo-600">Notifications</Link>
               <button onClick={logout} className="ml-2 text-sm px-3 py-1 bg-red-50 text-red-600 rounded">Logout</button>
             </>
           ) : (

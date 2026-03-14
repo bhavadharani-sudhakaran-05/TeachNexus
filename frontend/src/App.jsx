@@ -18,6 +18,7 @@ import WhiteboardScanner from './pages/WhiteboardScanner'
 import VoiceToLesson from './pages/VoiceToLesson'
 import Leaderboard from './pages/Leaderboard'
 import ParentPortal from './pages/ParentPortal'
+import NotificationsPage from './pages/Notifications'
 
 export default function App(){
   return (
@@ -38,6 +39,7 @@ export default function App(){
         <Route path="/voice" element={<VoiceToLesson/>} />
         <Route path="/leaderboard" element={<Leaderboard/>} />
         <Route path="/parent" element={<ParentPortal/>} />
+        <Route path="/notifications" element={<NotificationsPage/>} />
         <Route path="/communities" element={<Communities/>} />
         <Route path="/chat" element={<Chat/>} />
         <Route path="/admin" element={<Admin/>} />

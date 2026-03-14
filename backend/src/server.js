@@ -70,6 +70,9 @@ async function start() {
     // Badges automation
     const badgesRoutes = require('./routes/badges');
     app.use('/api/badges', badgesRoutes);
+    // Notifications
+    const notificationsRoutes = require('./routes/notifications');
+    app.use('/api/notifications', notificationsRoutes);
 
     server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (err) {
