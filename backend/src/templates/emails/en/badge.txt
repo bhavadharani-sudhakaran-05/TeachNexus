@@ -1,0 +1,11 @@
+Hi {{userName}},
+
+Congratulations — you earned a new badge on TeachNexus!
+
+Badge: {{badgeTitle}}
+
+{{badgeDescription}}
+
+Keep sharing and creating great resources.
+
+— TeachNexus

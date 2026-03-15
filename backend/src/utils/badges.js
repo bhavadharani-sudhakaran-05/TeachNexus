@@ -36,6 +36,19 @@ async function evaluateAndAward(userId){
       } catch (e) {
         console.error('notification persist failed', e)
       }
+      // send email notification if user has email
+      try {
+        const { sendBadgeEmail } = require('./mailer')
+        if (user.email) {
+          const subject = `You earned a new badge: ${b.title}`
+          const defaultText = b.description || `Congratulations — you earned the ${b.title} badge on TeachNexus.`
+          // send localized template if available; fallback to simple text/html
+          const locale = user.locale || user.lang || 'en'
+          sendBadgeEmail(user.email, subject, defaultText, `<p>${defaultText}</p><p><strong>Badge:</strong> ${b.title}</p>`, { locale, templateName: 'badge', vars: { userName: user.name || '', badgeTitle: b.title, badgeDescription: b.description || '' } }).catch(err => console.error('sendBadgeEmail error', err))
+        }
+      } catch (e) {
+        console.error('email send failed', e)
+      }
     }
   }
 

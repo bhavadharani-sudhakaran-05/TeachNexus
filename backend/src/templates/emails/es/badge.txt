@@ -1,0 +1,11 @@
+Hola {{userName}},
+
+¡Felicidades — has obtenido una nueva insignia en TeachNexus!
+
+Insignia: {{badgeTitle}}
+
+{{badgeDescription}}
+
+Sigue compartiendo y creando excelentes recursos.
+
+— TeachNexus
