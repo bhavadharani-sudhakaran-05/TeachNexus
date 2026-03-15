@@ -2,38 +2,36 @@ import React from 'react'
 
 export default function Hero(){
   return (
-    <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        <nav className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-white/20 rounded flex items-center justify-center font-semibold">TN</div>
-            <div className="font-bold">TeachNexus</div>
+    <header style={{ background: 'linear-gradient(135deg, var(--accent), var(--accent-2))', color: '#fff', padding: '60px 0' }}>
+      <div className="container">
+        <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: 40, height: 40, background: 'rgba(255,255,255,0.25)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, backdropFilter: 'blur(4px)' }}>TN</div>
+            <div style={{ fontWeight: 700 }}>TeachNexus</div>
           </div>
-          <div className="space-x-4">
-            <a className="hover:underline" href="#">Features</a>
-            <a className="hover:underline" href="#">Community</a>
-            <a className="hover:underline" href="#">Pricing</a>
-            <button className="ml-2 bg-white text-indigo-600 px-4 py-2 rounded">Get Started</button>
+          <div style={{ display: 'flex', gap: '20px' }}>
+            <a style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', cursor: 'pointer' }}>Features</a>
+            <a style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', cursor: 'pointer' }}>Community</a>
+            <a style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', cursor: 'pointer' }}>Pricing</a>
+            <button className="btn" style={{ padding: '10px 16px', fontSize: '0.9rem' }}>Get Started</button>
           </div>
         </nav>
 
-        <div className="md:flex md:items-center md:justify-between">
-          <div className="md:w-1/2">
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Connect. Create. Improve learning.</h1>
-            <p className="text-lg text-white/90 mb-6">A teacher-first platform for sharing lesson resources, co-creating plans, and growing professionally — powered by MERN.</p>
-            <div className="flex space-x-3">
-              <button className="bg-white text-indigo-600 font-semibold px-6 py-3 rounded shadow">Start Free</button>
-              <button className="bg-white/20 text-white px-6 py-3 rounded border border-white/30">Request Demo</button>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }}>
+          <div>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '16px', lineHeight: 1.2 }}>Connect. Create. Improve learning.</h1>
+            <p style={{ fontSize: '1.1rem', opacity: 0.9, marginBottom: '24px', lineHeight: 1.5 }}>A teacher-first platform for sharing lesson resources, co-creating plans, and growing professionally — powered by MERN.</p>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button className="btn" style={{ padding: '12px 24px' }}>Start Free</button>
+              <button className="btn secondary" style={{ padding: '12px 24px' }}>Request Demo</button>
             </div>
           </div>
-          <div className="md:w-1/2 mt-8 md:mt-0">
-            <div className="bg-white/10 rounded-lg p-6 shadow-inner">
-              <h4 className="text-white font-semibold mb-2">Quick Demo</h4>
-              <div className="bg-white rounded p-4 text-gray-800">Lesson topic: <strong>Fractions</strong></div>
-              <div className="mt-4 text-sm text-white/90">AI Lesson: 30 min • Grade 4 • 3 activities</div>
-              <div className="mt-4">
-                <a href="/resources" className="text-sm bg-white text-indigo-600 px-3 py-2 rounded">Browse Resources</a>
-              </div>
+          <div>
+            <div style={{ background: 'rgba(255,255,255,0.08)', borderRadius: '12px', padding: '24px', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <h4 style={{ color: '#fff', fontWeight: 600, marginBottom: '12px' }}>Quick Demo</h4>
+              <div style={{ background: 'rgba(255,255,255,0.95)', borderRadius: '10px', padding: '12px', color: '#0b1220', marginBottom: '12px' }}>Lesson topic: <strong>Fractions</strong></div>
+              <div style={{ fontSize: '0.9rem', opacity: 0.8, marginBottom: '16px' }}>AI Lesson: 30 min • Grade 4 • 3 activities</div>
+              <a href="/resources" className="btn" style={{ padding: '8px 12px', fontSize: '0.85rem', display: 'inline-block' }}>Browse Resources</a>
             </div>
           </div>
         </div>

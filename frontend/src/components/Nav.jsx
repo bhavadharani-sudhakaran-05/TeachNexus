@@ -38,32 +38,35 @@ export default function Nav(){
   }
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="nav">
       <Notifications />
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-3">
-          <div className="w-9 h-9 bg-indigo-600 text-white rounded flex items-center justify-center font-bold">TN</div>
-          <div className="font-semibold">TeachNexus</div>
+      <div className="container row">
+        <Link to="/" className="brand">
+          <div className="logo"></div>
+          <span>TeachNexus</span>
         </Link>
-        <nav className="space-x-4 text-sm flex items-center">
-          <Link to="/resources" className="text-gray-600 hover:text-indigo-600">{t('app.resources')}</Link>
-          <Link to="/planner" className="text-gray-600 hover:text-indigo-600">{t('app.planner')}</Link>
-          <Link to="/communities" className="text-gray-600 hover:text-indigo-600">{t('app.communities')}</Link>
-          <Link to="/chat" className="text-gray-600 hover:text-indigo-600">{t('app.chat')}</Link>
+        <nav style={{ display: 'flex', gap: '20px', alignItems: 'center', fontSize: '.95rem', flex: 1, justifyContent: 'flex-end' }}>
+          <Link to="/resources" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.resources')}</Link>
+          <Link to="/planner" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.planner')}</Link>
+          <Link to="/communities" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.communities')}</Link>
+          <Link to="/chat" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.chat')}</Link>
           {token ? (
             <>
-              <Link to="/dashboard" className="text-gray-700 font-medium">Dashboard</Link>
-                  <Link to="/parent" className="ml-2 text-gray-600 hover:text-indigo-600">{t('app.parent_portal')}</Link>
-                  <Link to="/notifications" className="ml-2 text-gray-600 hover:text-indigo-600">Notifications{unread>0 && <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium bg-red-500 text-white rounded-full">{unread}</span>}</Link>
-              <button onClick={logout} className="ml-2 text-sm px-3 py-1 bg-red-50 text-red-600 rounded">Logout</button>
+              <Link to="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Dashboard</Link>
+              <Link to="/parent" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.parent_portal')}</Link>
+              <Link to="/notifications" style={{ color: 'var(--muted)', textDecoration: 'none', position: 'relative' }}>
+                Notifications
+                {unread > 0 && <span style={{ position: 'absolute', top: -8, right: -8, background: 'var(--danger)', color: 'white', borderRadius: '50%', width: 20, height: 20, fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{unread}</span>}
+              </Link>
+              <button onClick={logout} className="btn secondary" style={{ padding: '8px 12px', fontSize: '0.9rem' }}>Logout</button>
             </>
           ) : (
             <>
-              <Link to="/login" className="text-gray-700 font-medium">{t('app.login')}</Link>
-              <Link to="/register" className="ml-2 text-sm px-3 py-1 bg-indigo-600 text-white rounded">{t('app.signup')}</Link>
+              <Link to="/login" style={{ color: '#fff', textDecoration: 'none', fontWeight: 600 }}>{t('app.login')}</Link>
+              <Link to="/register" className="btn" style={{ padding: '8px 12px', fontSize: '0.9rem' }}>{t('app.signup')}</Link>
             </>
           )}
-          <select onChange={changeLang} defaultValue={i18n.language} className="ml-4 border rounded px-2 py-1 text-sm">
+          <select onChange={changeLang} defaultValue={i18n.language} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: 'inherit', padding: '6px 8px', borderRadius: '8px', fontSize: '0.9rem' }}>
             <option value="en">EN</option>
             <option value="es">ES</option>
           </select>
