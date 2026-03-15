@@ -73,6 +73,9 @@ async function start() {
     // Notifications
     const notificationsRoutes = require('./routes/notifications');
     app.use('/api/notifications', notificationsRoutes);
+    // Admin email templates editor
+    const emailTemplates = require('./routes/emailTemplates');
+    app.use('/api/admin/templates', emailTemplates);
 
     server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (err) {

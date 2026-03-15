@@ -19,6 +19,7 @@ import VoiceToLesson from './pages/VoiceToLesson'
 import Leaderboard from './pages/Leaderboard'
 import ParentPortal from './pages/ParentPortal'
 import NotificationsPage from './pages/Notifications'
+import AdminEmailTemplates from './pages/AdminEmailTemplates'
 
 export default function App(){
   return (
@@ -40,6 +41,7 @@ export default function App(){
         <Route path="/leaderboard" element={<Leaderboard/>} />
         <Route path="/parent" element={<ParentPortal/>} />
         <Route path="/notifications" element={<NotificationsPage/>} />
+        <Route path="/admin/templates" element={<AdminEmailTemplates/>} />
         <Route path="/communities" element={<Communities/>} />
         <Route path="/chat" element={<Chat/>} />
         <Route path="/admin" element={<Admin/>} />

@@ -40,10 +40,14 @@ export default function Admin(){
           <div className="text-sm text-gray-500">Top Event Types</div>
           <div className="mt-2">
             {summary ? summary.byType.map(bt => (
-              <div key={bt._id} className="text-sm">{bt._id}: {bt.count}</div>
+              <div key={bt._id} className="text-sm">{bt._1d}: {bt.count}</div>
             )) : '—'}
           </div>
         </div>
+      </div>
+
+      <div className="mb-6">
+        <a href="/admin/templates" className="px-3 py-2 bg-indigo-600 text-white rounded">Email Template Editor</a>
       </div>
 
       <div className="bg-white p-4 rounded shadow">
