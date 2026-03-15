@@ -6,6 +6,9 @@ export default function AdminEmailTemplates(){
   const [selected, setSelected] = useState({ locale: 'en', name: 'badge' })
   const [html, setHtml] = useState('')
   const [text, setText] = useState('')
+  const [previewHtml, setPreviewHtml] = useState('')
+  const [showPreview, setShowPreview] = useState(false)
+  const [previewLoading, setPreviewLoading] = useState(false)
 
   useEffect(()=>{ loadList() },[])
 
@@ -33,6 +36,21 @@ export default function AdminEmailTemplates(){
     }catch(e){ console.error(e); alert('Save failed') }
   }
 
+  const preview = async () => {
+    setPreviewLoading(true)
+    try {
+      const sample = { userName: 'Ada', badgeTitle: 'Early Adopter', badgeDescription: 'Awarded for testing' }
+      const r = await api.post(`/admin/templates/render/${selected.locale}/${selected.name}`, { vars: sample })
+      setPreviewHtml(r.data.html || r.data.text || '<em>No template</em>')
+      setShowPreview(true)
+    } catch (e) {
+      console.error(e)
+      alert('Preview failed')
+    } finally {
+      setPreviewLoading(false)
+    }
+  }
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h2 className="text-2xl font-semibold mb-4">Email Templates (Admin)</h2>
@@ -45,6 +63,7 @@ export default function AdminEmailTemplates(){
         </select>
         <button onClick={loadTemplate} className="px-3 py-2 bg-indigo-600 text-white rounded">Load</button>
         <button onClick={save} className="px-3 py-2 bg-green-600 text-white rounded">Save</button>
+        <button onClick={preview} disabled={previewLoading} className="px-3 py-2 bg-blue-600 text-white rounded" style={{ marginLeft: 8 }}>Preview</button>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -57,6 +76,12 @@ export default function AdminEmailTemplates(){
           <textarea value={text} onChange={e=>setText(e.target.value)} className="w-full h-64 border p-2" />
         </div>
       </div>
+      {showPreview && (
+        <div style={{ marginTop: 16 }}>
+          <h3>Preview</h3>
+          <div style={{ border: '1px solid #ddd', padding: 12 }} dangerouslySetInnerHTML={{ __html: previewHtml }} />
+        </div>
+      )}
     </div>
   )
 }

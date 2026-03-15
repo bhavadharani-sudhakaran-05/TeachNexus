@@ -65,4 +65,29 @@ router.put('/:locale/:name', auth, async (req, res) => {
   }
 })
 
+// POST /api/admin/templates/render/:locale/:name - render template with variables (admin)
+router.post('/render/:locale/:name', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' })
+    const { locale, name } = req.params
+    const vars = req.body.vars || {}
+    const base = templatesDir()
+    const htmlPath = path.join(base, locale, `${name}.html`)
+    const txtPath = path.join(base, locale, `${name}.txt`)
+    let html = null, text = null
+    if (fs.existsSync(htmlPath)) html = fs.readFileSync(htmlPath, 'utf8')
+    if (fs.existsSync(txtPath)) text = fs.readFileSync(txtPath, 'utf8')
+
+    function fill(t){
+      if (!t) return null
+      return t.replace(/{{\s*(\w+)\s*}}/g, (_, k) => (vars && vars[k]) ? vars[k] : '')
+    }
+
+    res.json({ html: fill(html), text: fill(text) })
+  } catch (e) {
+    console.error('render template failed', e)
+    res.status(500).json({ message: 'Server error' })
+  }
+})
+
 module.exports = router
