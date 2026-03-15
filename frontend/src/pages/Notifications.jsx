@@ -15,6 +15,13 @@ export default function NotificationsPage(){
     }catch(e){ console.error(e) }
   }
 
+  async function markAllRead(){
+    try{
+      await api.put('/notifications/read-all')
+      load()
+    }catch(e){ console.error(e) }
+  }
+
   useEffect(()=>{ load() },[])
 
   async function markRead(id){
@@ -26,7 +33,10 @@ export default function NotificationsPage(){
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">Notifications ({unread})</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-semibold">Notifications ({unread})</h2>
+        <button onClick={markAllRead} className="px-3 py-1 bg-indigo-600 text-white rounded text-sm">Mark all read</button>
+      </div>
       <div className="space-y-3">
         {items.map(n => (
           <div key={n._id} className={`p-4 rounded border ${n.read ? 'bg-white' : 'bg-indigo-50'}`}>

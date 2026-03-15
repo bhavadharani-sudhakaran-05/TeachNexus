@@ -30,4 +30,15 @@ router.put('/:id/read', auth, async (req, res) => {
   }
 })
 
+// PUT /api/notifications/read-all - mark all notifications for user as read
+router.put('/read-all', auth, async (req, res) => {
+  try {
+    await Notification.updateMany({ user: req.user._id, read: false }, { $set: { read: true } })
+    res.json({ ok: true })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Server error' })
+  }
+})
+
 module.exports = router
