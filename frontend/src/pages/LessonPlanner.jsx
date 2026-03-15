@@ -19,18 +19,18 @@ export default function LessonPlanner(){
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">Lesson Planner</h2>
-      <div className="bg-white p-4 rounded shadow">
+    <div className="container">
+      <h2 style={{ fontSize: '1.875rem', fontWeight: 600, marginBottom: '24px', marginTop: '24px' }}>📋 Lesson Planner</h2>
+      <div className="card">
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="plan">
             {(provided)=> (
-              <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3">
+              <div {...provided.droppableProps} ref={provided.innerRef} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {items.map((it, idx)=> (
                   <Draggable key={it.id} draggableId={it.id} index={idx}>
                     {(p)=> (
-                      <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps} className="p-3 border rounded bg-gray-50">
-                        <div className="flex justify-between"><div className="font-medium">{it.title}</div><div className="text-sm text-gray-500">{it.duration}m</div></div>
+                      <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps} style={{ padding: '12px', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', background: 'rgba(255,255,255,0.02)', cursor: 'grab' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><div style={{ fontWeight: 600 }}>⏱️ {it.title}</div><div className="muted small">{it.duration}min</div></div>
                       </div>
                     )}
                   </Draggable>

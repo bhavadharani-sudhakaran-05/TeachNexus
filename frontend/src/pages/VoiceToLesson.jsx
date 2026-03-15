@@ -47,19 +47,20 @@ export default function VoiceToLesson(){
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">Voice-to-Lesson Plan</h2>
-      <div className="bg-white p-4 rounded shadow">
-        <div className="mb-3">
-          <button onClick={toggle} className={`px-4 py-2 rounded ${listening ? 'bg-red-500 text-white' : 'bg-indigo-600 text-white'}`}>{listening ? 'Stop' : 'Start Recording'}</button>
-        </div>
-        <div className="mb-3">
-          <label className="block text-sm font-medium">Transcript</label>
-          <textarea value={transcript} onChange={e=>setTranscript(e.target.value)} rows={6} className="w-full p-2 border rounded" />
+    <div className="container">
+      <h2 style={{ fontSize: '1.875rem', fontWeight: 600, marginBottom: '24px', marginTop: '24px' }}>🎤 Voice-to-Lesson Plan</h2>
+      <div className="card" style={{ marginBottom: '24px' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <button onClick={toggle} className={listening ? 'btn' : 'btn secondary'} style={{ padding: '12px 24px', fontSize: '1rem', width: '100%' }}>{listening ? '⏹️ Stop Recording' : '🎙️ Start Recording'}</button>
+          {listening && <div style={{ marginTop: '12px', color: 'var(--danger)', fontWeight: 600, textAlign: 'center' }}>🔴 Recording...</div>}
         </div>
         <div>
-          <button onClick={generate} className="px-4 py-2 bg-green-600 text-white rounded" disabled={generating}>{generating ? 'Generating...' : 'Generate Lesson'}</button>
+          <label className="small" style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>📝 Transcript</label>
+          <textarea value={transcript} onChange={e=>setTranscript(e.target.value)} rows={6} placeholder="Your voice transcript will appear here, or type manually..."  style={{ width: '100%', padding: '12px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: 'inherit', fontFamily: 'inherit', resize: 'vertical' }} />
         </div>
+      </div>
+      <div>
+        <button onClick={generate} className="btn" style={{ padding: '12px 24px', width: '100%' }} disabled={generating}>{generating ? '⏳ Generating...' : '✨ Generate Lesson Plan'}</button>
       </div>
     </div>
   )

@@ -34,26 +34,32 @@ export default function ParentPortal(){
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">{t('app.parent_portal')}</h2>
-      <form onSubmit={linkChild} className="mb-4 flex items-center space-x-2">
-        <input placeholder="child@example.com" value={email} onChange={e=>setEmail(e.target.value)} className="border px-3 py-2 rounded flex-1" />
-        <button className="px-4 py-2 bg-indigo-600 text-white rounded">{t('app.link_child')}</button>
+    <div className="container">
+      <h2 style={{ fontSize: '1.875rem', fontWeight: 600, marginBottom: '24px', marginTop: '24px' }}>👨‍👩‍👧 {t('app.parent_portal')}</h2>
+      <form onSubmit={linkChild} className="card" style={{ marginBottom: '24px', display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
+        <div style={{ flex: 1 }}>
+          <label className="small" style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>Link Your Child</label>
+          <input placeholder="child@example.com" value={email} onChange={e=>setEmail(e.target.value)} style={{ width: '100%', padding: '12px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: 'inherit' }} />
+        </div>
+        <button className="btn" style={{ padding: '10px 16px' }}>{t('app.link_child') || 'Link'}</button>
       </form>
-      {msg && <div className="mb-4 text-sm text-green-700">{msg}</div>}
+      {msg && <div style={{ background: 'rgba(52,211,153,0.15)', color: 'var(--success)', padding: '12px', borderRadius: '10px', marginBottom: '16px', border: '1px solid rgba(52,211,153,0.2)' }}>{msg}</div>}
       <div>
-        <h3 className="text-lg font-medium mb-2">{t('app.children')}</h3>
-        <ul className="space-y-2">
+        <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '16px' }}>{t('app.children') || 'My Children'}</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {children.map(c=> (
-            <li key={c._id} className="p-3 border rounded flex justify-between">
+            <div key={c._id} className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <div className="font-medium">{c.name}</div>
-                <div className="text-sm text-gray-600">{c.email}</div>
+                <div style={{ fontWeight: 600, marginBottom: '4px' }}>{c.name}</div>
+                <div className="muted small">{c.email}</div>
               </div>
-              <div className="text-sm text-gray-700">XP: {c.xp || 0} • Level: {c.level || 1}</div>
-            </li>
+              <div style={{ textAlign: 'right' }}>
+                <div className="small" style={{ marginBottom: '4px' }}><strong>XP:</strong> {c.xp || 0}</div>
+                <div className="muted small"><strong>Level:</strong> {c.level || 1}</div>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   )

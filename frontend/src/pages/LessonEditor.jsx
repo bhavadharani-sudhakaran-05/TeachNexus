@@ -46,11 +46,40 @@ export default function LessonEditor(){
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">Collaborative Lesson Editor</h2>
-      <div className="mb-3 text-sm text-gray-600">Room: {id ? `lesson-${id}` : 'lesson-temp'} • Status: {connected ? 'Connected' : 'Disconnected'}</div>
-      <textarea ref={textareaRef} value={content} onChange={onChange} rows={18} className="w-full p-3 border rounded bg-white" />
-      <div className="text-sm text-gray-500 mt-2">This editor syncs in real-time using Yjs. Open the same URL in another browser to collaborate.</div>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
+      <h2 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '16px' }}>✍️ Collaborative Lesson Editor</h2>
+      <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px', padding: '12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
+        <span style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>📍 Room: <span style={{ color: 'var(--accent)', fontWeight: 600 }}>{id ? `lesson-${id}` : 'lesson-temp'}</span></span>
+        <span style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>•</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem', fontWeight: 600 }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: connected ? '#00d4ff' : '#ff6b6b' }}></span>
+          <span style={{ color: connected ? 'var(--accent)' : '#ff6b6b' }}>{connected ? '🟢 Connected' : '🔴 Connecting...'}</span>
+        </span>
+      </div>
+      
+      <div className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <textarea 
+          ref={textareaRef} 
+          value={content} 
+          onChange={onChange} 
+          rows={20}
+          style={{ 
+            width: '100%', 
+            padding: '14px', 
+            background: 'rgba(255,255,255,0.02)', 
+            border: '1px solid rgba(255,255,255,0.1)', 
+            borderRadius: '8px', 
+            color: 'var(--text-primary)',
+            fontSize: '0.95rem',
+            fontFamily: 'monospace',
+            resize: 'vertical',
+            lineHeight: '1.5'
+          }} 
+        />
+        <div style={{ fontSize: '0.8rem', color: 'var(--muted)', textAlign: 'center', padding: '8px' }}>
+          💡 Real-time sync via Yjs • Open same URL in another tab/browser to collaborate
+        </div>
+      </div>
     </div>
   )
 }

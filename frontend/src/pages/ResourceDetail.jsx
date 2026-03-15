@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import api from '../api'
 
 export default function ResourceDetail(){
@@ -11,68 +11,85 @@ export default function ResourceDetail(){
     api.get(`/resources/${id}`).then(r=>setResItem(r.data)).catch(()=>{})
   },[id])
 
-  if (!resItem) return <div className="max-w-4xl mx-auto p-6">Loading...</div>
+  if (!resItem) return <div style={{ maxWidth: '960px', margin: '0 auto', padding: '24px', textAlign: 'center', color: 'var(--muted)' }}>⏳ Loading...</div>
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded shadow mt-6">
-      <h2 className="text-2xl font-semibold mb-2">{resItem.title}</h2>
-      {resItem.forkFrom && (
-        <div className="text-sm text-gray-500 mb-2">Remixed from <a className="text-indigo-600" href={`/resources/${resItem.forkFrom}`}>original</a></div>
-      )}
-      <div className="text-sm text-gray-500 mb-4">{resItem.subject} • {resItem.grade}</div>
-      <div className="mb-3">
-        {resItem.verified ? (
-          <div className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 rounded">Verified ✓</div>
-        ) : (
-          <div className="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-800 rounded">Not verified</div>
+    <div style={{ maxWidth: '960px', margin: '0 auto', padding: '24px', marginTop: '24px' }}>
+      <div className="card">
+        <h2 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '8px' }}>📚 {resItem.title}</h2>
+        {resItem.forkFrom && (
+          <div style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '8px' }}>
+            Remixed from <a href={`/resources/${resItem.forkFrom}`} style={{ color: 'var(--accent)', textDecoration: 'none' }}>original</a>
+          </div>
         )}
-        {resItem.verificationNotes && (<div className="text-sm text-gray-500 mt-2">Notes: {resItem.verificationNotes}</div>)}
-      </div>
-      <p className="mb-4">{resItem.description}</p>
-      <div className="mb-4 text-sm text-gray-600">Forks: {resItem.forkCount || 0}</div>
-      <div className="space-y-2">
-        {resItem.files?.map(f=> (
-          <a key={f.url} href={f.url} className="text-indigo-600 block">{f.filename}</a>
-        ))}
-      </div>
-      <div className="mt-4 flex gap-3">
-        <button onClick={async ()=>{
-          const token = localStorage.getItem('tn_token')
-          if (!token) return navigate('/login')
-          try{
-            const res = await api.post(`/resources/${id}/remix`, {})
-            navigate(`/resources/${res.data._id}`)
-          }catch(e){ alert('Remix failed') }
-        }} className="mt-4 px-4 py-2 bg-green-600 text-white rounded">Remix</button>
+        <div style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '16px' }}>
+          {resItem.subject} • {resItem.grade}
+        </div>
+        
+        <div style={{ marginBottom: '16px', display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+          {resItem.verified ? (
+            <span style={{ display: 'inline-flex', alignItems: 'center', padding: '6px 12px', backgroundColor: 'rgba(0, 212, 255, 0.1)', color: 'var(--accent)', borderRadius: '8px', fontSize: '0.875rem', fontWeight: 600 }}>✓ Verified</span>
+          ) : (
+            <span style={{ display: 'inline-flex', alignItems: 'center', padding: '6px 12px', backgroundColor: 'rgba(255, 204, 0, 0.1)', color: 'var(--accent)', borderRadius: '8px', fontSize: '0.875rem' }}>⏳ Pending verification</span>
+          )}
+          <span style={{ color: 'var(--muted)', fontSize: '0.875rem' }}>🔀 {resItem.forkCount || 0} remixes</span>
+        </div>
+        
+        {resItem.verificationNotes && <div style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '16px', padding: '8px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>📝 {resItem.verificationNotes}</div>}
+        
+        <p style={{ fontSize: '1rem', lineHeight: '1.6', marginBottom: '24px', color: 'var(--text-secondary)' }}>{resItem.description}</p>
+        
+        {resItem.files && resItem.files.length > 0 && (
+          <div style={{ marginBottom: '24px' }}>
+            <h3 style={{ fontWeight: 600, marginBottom: '12px', fontSize: '0.95rem' }}>📎 Attachments</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {resItem.files.map(f=> (
+                <a key={f.url} href={f.url} style={{ color: 'var(--accent)', textDecoration: 'none', fontSize: '0.95rem', padding: '8px 12px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '6px', display: 'inline-block', maxWidth: 'fit-content' }}>
+                  🔗 {f.filename}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '24px' }}>
+          <button onClick={async ()=>{
+            const token = localStorage.getItem('tn_token')
+            if (!token) return navigate('/login')
+            try{
+              const res = await api.post(`/resources/${id}/remix`, {})
+              navigate(`/resources/${res.data._id}`)
+            }catch(e){ alert('Remix failed') }
+          }} className="btn" style={{ padding: '10px 16px' }}>🎨 Remix This</button>
 
-        <button onClick={async ()=>{
-          try{
-            const idToCheck = id
-            const res = await api.post('/verify', { resourceId: idToCheck })
-            const top = res.data.matches || []
-            const list = top.slice(0,5).map(m => `${(m.score*100).toFixed(1)}% — ${m.title} (id:${m.id})`).join('\n')
-            alert('Top matches:\n' + (list || 'No matches'))
-          }catch(e){ console.error(e); alert('Check failed') }
-        }} className="mt-4 px-4 py-2 bg-yellow-500 text-white rounded">Check Similarity</button>
+          <button onClick={async ()=>{
+            try{
+              const idToCheck = id
+              const res = await api.post('/verify', { resourceId: idToCheck })
+              const top = res.data.matches || []
+              const list = top.slice(0,5).map(m => `${(m.score*100).toFixed(1)}% — ${m.title}`).join('\n')
+              alert('Top similarity matches:\n' + (list || 'No matches found'))
+            }catch(e){ console.error(e); alert('Check failed') }
+          }} className="btn" style={{ padding: '10px 16px', backgroundColor: 'rgba(255, 204, 0, 0.2)', color: 'var(--accent)', border: '1px solid rgba(255, 204, 0, 0.3)' }}>🔍 Check Similarity</button>
 
-        {/* Verify button for admins/principals */}
-        {(() => {
-          const u = JSON.parse(localStorage.getItem('tn_user')||'null')
-          if (u && (u.role==='admin' || u.role==='principal')){
-            return (
-              <button onClick={async ()=>{
-                const notes = prompt('Enter verification notes (optional)')
-                const ok = confirm('Mark resource as verified?')
-                try{
-                  await api.put(`/verify/${id}`, { verified: ok, notes })
-                  alert('Verification updated')
-                  window.location.reload()
-                }catch(e){ console.error(e); alert('Verification failed') }
-              }} className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded">Verify</button>
-            )
-          }
-          return null
-        })()}
+          {(() => {
+            const u = JSON.parse(localStorage.getItem('tn_user')||'null')
+            if (u && (u.role==='admin' || u.role==='principal')){
+              return (
+                <button onClick={async ()=>{
+                  const notes = prompt('Enter verification notes (optional)')
+                  const ok = confirm('Mark resource as verified?')
+                  try{
+                    await api.put(`/verify/${id}`, { verified: ok, notes })
+                    alert('Verification updated')
+                    window.location.reload()
+                  }catch(e){ console.error(e); alert('Verification failed') }
+                }} className="btn" style={{ padding: '10px 16px', backgroundColor: 'rgba(0, 212, 255, 0.2)', color: 'var(--accent)', border: '1px solid rgba(0, 212, 255, 0.3)' }}>✅ Verify Resource</button>
+              )
+            }
+            return null
+          })()}
+        </div>
       </div>
     </div>
   )

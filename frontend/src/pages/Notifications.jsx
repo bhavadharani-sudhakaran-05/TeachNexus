@@ -32,21 +32,21 @@ export default function NotificationsPage(){
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-semibold">Notifications ({unread})</h2>
-        <button onClick={markAllRead} className="px-3 py-1 bg-indigo-600 text-white rounded text-sm">Mark all read</button>
+    <div className="container">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', marginTop: '24px', gap: '16px', flexWrap: 'wrap' }}>
+        <h2 style={{ fontSize: '1.875rem', fontWeight: 600 }}>🔔 Notifications ({unread})</h2>
+        <button onClick={markAllRead} className="btn secondary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>Mark All Read</button>
       </div>
-      <div className="space-y-3">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {items.map(n => (
-          <div key={n._id} className={`p-4 rounded border ${n.read ? 'bg-white' : 'bg-indigo-50'}`}>
-            <div className="flex justify-between items-start">
+          <div key={n._id} className="card" style={{ background: n.read ? 'var(--card)' : 'linear-gradient(90deg, rgba(124,92,255,0.1), transparent)', borderLeft: n.read ? 'none' : '3px solid var(--accent)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
               <div>
-                <div className="font-medium">{n.title}</div>
-                <div className="text-sm text-gray-700">{n.body}</div>
-                <div className="text-xs text-gray-500 mt-1">{new Date(n.createdAt).toLocaleString()}</div>
+                <div style={{ fontWeight: 600, marginBottom: '4px' }}>{n.title}</div>
+                <div className="muted small">{n.body}</div>
+                <div className="muted small" style={{ fontSize: '0.8rem', marginTop: '8px' }}>📅 {new Date(n.createdAt).toLocaleString()}</div>
               </div>
-              {!n.read && <button onClick={()=>markRead(n._id)} className="ml-4 px-3 py-1 bg-indigo-600 text-white rounded text-sm">Mark read</button>}
+              {!n.read && <button onClick={()=>markRead(n._id)} className="btn secondary" style={{ padding: '6px 12px', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>Mark Read</button>}
             </div>
           </div>
         ))}

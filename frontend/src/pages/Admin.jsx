@@ -25,40 +25,45 @@ export default function Admin(){
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">Admin Panel</h2>
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-white p-4 rounded shadow">
-          <div className="text-sm text-gray-500">Events (7d)</div>
-          <div className="text-2xl font-bold">{summary ? summary.totalEvents : '—'}</div>
+    <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '24px' }}>
+      <h2 style={{ fontSize: '1.875rem', fontWeight: 600, marginBottom: '24px' }}>📊 Admin Dashboard</h2>
+      <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+        <div className="card" style={{ padding: '20px' }}>
+          <div style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '8px' }}>Events (7d)</div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--accent)' }}>{summary ? summary.totalEvents : '—'}</div>
         </div>
-        <div className="bg-white p-4 rounded shadow">
-          <div className="text-sm text-gray-500">Active Users (7d)</div>
-          <div className="text-2xl font-bold">{summary ? summary.activeUsers : '—'}</div>
+        <div className="card" style={{ padding: '20px' }}>
+          <div style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '8px' }}>👥 Active Users (7d)</div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--accent)' }}>{summary ? summary.activeUsers : '—'}</div>
         </div>
-        <div className="bg-white p-4 rounded shadow">
-          <div className="text-sm text-gray-500">Top Event Types</div>
-          <div className="mt-2">
-            {summary ? summary.byType.map(bt => (
-              <div key={bt._id} className="text-sm">{bt._1d}: {bt.count}</div>
-            )) : '—'}
+        <div className="card" style={{ padding: '20px' }}>
+          <div style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '8px' }}>📈 Top Event Types</div>
+          <div style={{ marginTop: '8px' }}>
+            {summary ? summary.byType.map((bt, i) => (
+              <div key={bt._id} style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+                {i + 1}. {bt._id}: <span style={{ fontWeight: 600, color: 'var(--accent)' }}>{bt.count}</span>
+              </div>
+            )) : <div style={{ color: 'var(--muted)' }}>—</div>}
           </div>
         </div>
       </div>
 
-      <div className="mb-6">
-        <a href="/admin/templates" className="px-3 py-2 bg-indigo-600 text-white rounded">Email Template Editor</a>
+      <div style={{ marginBottom: '24px' }}>
+        <a href="/admin/templates" className="btn" style={{ display: 'inline-block', padding: '10px 16px' }}>✉️ Email Template Editor</a>
       </div>
 
-      <div className="bg-white p-4 rounded shadow">
-        <h3 className="font-medium mb-3">Top Resources (30d)</h3>
+      <div className="card">
+        <h3 style={{ fontWeight: 600, marginBottom: '16px', fontSize: '1.1rem' }}>🏆 Top Resources (30d)</h3>
         {topResources.length ? (
-          <ul>
-            {topResources.map(it => (
-              <li key={it._id} className="py-2 border-b">Resource ID: {it._id} — {it.count} creations</li>
+          <div style={{ overflowY: 'auto', maxHeight: '400px' }}>
+            {topResources.map((it, i) => (
+              <div key={it._id} style={{ padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.875rem', color: 'var(--muted)' }}>#{i + 1} {it._id.slice(0, 12)}...</span>
+                <span style={{ fontWeight: 600, color: 'var(--accent)' }}>{it.count} creations</span>
+              </div>
             ))}
-          </ul>
-        ) : <div className="text-sm text-gray-600">No data</div>}
+          </div>
+        ) : <div style={{ fontSize: '0.875rem', color: 'var(--muted)', textAlign: 'center', padding: '20px' }}>📭 No data available</div>}
       </div>
     </div>
   )

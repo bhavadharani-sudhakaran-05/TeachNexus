@@ -49,23 +49,83 @@ export default function WhiteboardScanner(){
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-semibold mb-4">Whiteboard Scanner</h2>
-      <div className="bg-white p-4 rounded shadow">
-        <div className="mb-3">
-          <input type="file" accept="image/*" onChange={e=>setFile(e.target.files?.[0]||null)} />
+    <div style={{ maxWidth: '960px', margin: '0 auto', padding: '24px' }}>
+      <h2 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '24px' }}>📸 Whiteboard Scanner</h2>
+      <div className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        
+        <div style={{ padding: '16px', backgroundColor: 'rgba(0, 212, 255, 0.05)', border: '2px dashed rgba(0, 212, 255, 0.3)', borderRadius: '8px', textAlign: 'center' }}>
+          <div style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '12px' }}>📤 Select a whiteboard image to scan</div>
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={e=>setFile(e.target.files?.[0]||null)}
+            style={{ cursor: 'pointer' }}
+          />
+          {file && <div style={{ fontSize: '0.875rem', color: 'var(--accent)', marginTop: '8px', fontWeight: 600 }}>✓ {file.name}</div>}
         </div>
-        <div className="mb-3">
-          <button onClick={handleProcess} className="px-4 py-2 bg-indigo-600 text-white rounded" disabled={processing}>{processing ? 'Processing...' : 'Process Image'}</button>
-        </div>
-        <div className="mb-3">
-          <label className="block text-sm font-medium">Extracted Text</label>
-          <textarea value={text} onChange={e=>setText(e.target.value)} rows={8} className="w-full p-2 border rounded" />
-        </div>
-        <div className="flex gap-3">
-          <button onClick={generateLesson} className="px-4 py-2 bg-green-600 text-white rounded">Generate Lesson</button>
-          <button onClick={saveAsResource} className="px-4 py-2 bg-gray-200 rounded">Save as Resource</button>
-        </div>
+        
+        <button 
+          onClick={handleProcess} 
+          className="btn"
+          disabled={!file || processing}
+          style={{ 
+            padding: '12px', 
+            opacity: !file || processing ? 0.5 : 1,
+            cursor: !file || processing ? 'not-allowed' : 'pointer'
+          }}
+        >
+          {processing ? '⏳ Processing with OCR...' : '🤖 Process Image'}
+        </button>
+        
+        {(text || processing) && (
+          <div>
+            <label style={{ display: 'block', fontSize: '0.95rem', fontWeight: 600, marginBottom: '12px' }}>📝 Extracted Text</label>
+            <textarea 
+              value={text} 
+              onChange={e=>setText(e.target.value)} 
+              rows={10}
+              style={{ 
+                width: '100%', 
+                padding: '12px', 
+                background: 'rgba(255,255,255,0.02)', 
+                border: '1px solid rgba(255,255,255,0.1)', 
+                borderRadius: '8px', 
+                color: 'var(--text-primary)',
+                fontSize: '0.95rem',
+                fontFamily: 'monospace',
+                resize: 'vertical',
+                lineHeight: '1.5'
+              }} 
+            />
+            <div style={{ fontSize: '0.8rem', color: 'var(--muted)', marginTop: '8px' }}>💡 Edit the text if needed before generating</div>
+          </div>
+        )}
+        
+        {text && (
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button 
+              onClick={generateLesson}
+              className="btn"
+              style={{ padding: '10px 16px', flex: 1, minWidth: '200px' }}
+            >
+              📚 Generate Lesson Plan
+            </button>
+            <button 
+              onClick={saveAsResource}
+              className="btn"
+              style={{ 
+                padding: '10px 16px', 
+                flex: 1, 
+                minWidth: '200px',
+                backgroundColor: 'rgba(255, 204, 0, 0.2)',
+                color: 'var(--accent)',
+                border: '1px solid rgba(255, 204, 0, 0.3)'
+              }}
+            >
+              💾 Save as Resource
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
