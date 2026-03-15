@@ -31,12 +31,12 @@ export default function Notifications(){
   if (!notes.length) return null
 
   return (
-    <div style={{ position: 'fixed', top: 12, right: 12, zIndex: 60 }}>
+    <div className="toast-container">
       {notes.map(n => (
-        <div key={n.id} className="mb-2 p-3 bg-white shadow rounded border w-80">
-          <div className="font-medium">{n.type === 'badge_awarded' ? 'Badge Awarded' : 'Notification'}</div>
-          {n.badges && <div className="text-sm text-gray-700 mt-1">You earned: {n.badges.join(', ')}</div>}
-          {n.message && <div className="text-sm text-gray-700 mt-1">{n.message}</div>}
+        <div key={n.id} className="toast">
+          <div className="title">{n.type === 'badge_awarded' ? 'Badge Awarded' : 'Notification'}</div>
+          {n.badges && <div className="muted small mt-1">You earned: {n.badges.join(', ')}</div>}
+          {n.message && <div className="muted small mt-1">{n.message}</div>}
         </div>
       ))}
     </div>

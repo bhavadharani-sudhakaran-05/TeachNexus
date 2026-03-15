@@ -63,7 +63,7 @@ export default function AdminEmailTemplates(){
         </select>
         <button onClick={loadTemplate} className="px-3 py-2 bg-indigo-600 text-white rounded">Load</button>
         <button onClick={save} className="px-3 py-2 bg-green-600 text-white rounded">Save</button>
-        <button onClick={preview} disabled={previewLoading} className="px-3 py-2 bg-blue-600 text-white rounded" style={{ marginLeft: 8 }}>Preview</button>
+        <button onClick={preview} disabled={previewLoading} className="px-3 py-2 bg-blue-600 text-white rounded ml-2">Preview</button>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -77,9 +77,9 @@ export default function AdminEmailTemplates(){
         </div>
       </div>
       {showPreview && (
-        <div style={{ marginTop: 16 }}>
+        <div className="preview">
           <h3>Preview</h3>
-          <div style={{ border: '1px solid #ddd', padding: 12 }} dangerouslySetInnerHTML={{ __html: previewHtml }} />
+          <div className="preview-box" dangerouslySetInnerHTML={{ __html: previewHtml }} />
         </div>
       )}
     </div>
