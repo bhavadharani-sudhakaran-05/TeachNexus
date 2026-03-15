@@ -21,14 +21,16 @@ export default function Login(){
   }
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white p-8 rounded shadow">
-      <h2 className="text-2xl font-semibold mb-4">Login</h2>
-      {error && <div className="text-red-600 mb-3">{error}</div>}
-      <form onSubmit={submit} className="space-y-3">
-        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" className="w-full p-3 border rounded" />
-        <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder="Password" className="w-full p-3 border rounded" />
-        <button className="w-full bg-indigo-600 text-white p-3 rounded">Login</button>
-      </form>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '24px' }}>
+      <div className="card" style={{ maxWidth: '380px', width: '100%', padding: '32px' }}>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '24px', textAlign: 'center' }}>Login</h2>
+        {error && <div style={{ background: 'rgba(251,113,133,0.15)', color: 'var(--danger)', padding: '12px', borderRadius: '10px', marginBottom: '16px', fontSize: '0.9rem', border: '1px solid rgba(251,113,133,0.2)' }}>{error}</div>}
+        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" style={{ width: '100%', padding: '12px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: 'inherit' }} />
+          <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder="Password" style={{ width: '100%', padding: '12px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: 'inherit' }} />
+          <button className="btn" style={{ width: '100%', padding: '12px', marginTop: '8px' }}>Login</button>
+        </form>
+      </div>
     </div>
   )
 }
