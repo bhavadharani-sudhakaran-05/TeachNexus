@@ -41,8 +41,8 @@ export default function Nav(){
     <header className="nav">
       <Notifications />
       <div className="container row">
-        <Link to="/" className="brand">
-          <div className="logo"></div>
+        <Link to="/" className="brand" style={{ display: 'flex', gap: 12, alignItems: 'center', textDecoration: 'none' }}>
+          <div className="logo" style={{ width: 44, height: 44, borderRadius: 12, background: 'linear-gradient(135deg, var(--navy), var(--navy-light))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700 }}></div>
           <span>TeachNexus</span>
         </Link>
         <nav className="menu">
