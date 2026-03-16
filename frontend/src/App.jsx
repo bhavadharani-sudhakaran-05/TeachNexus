@@ -13,6 +13,7 @@ import Communities from './pages/Communities'
 import Chat from './pages/Chat'
 import Admin from './pages/Admin'
 import AIGenerator from './pages/AIGenerator'
+import AITools from './pages/AITools'
 import LessonEditor from './pages/LessonEditor'
 import WhiteboardScanner from './pages/WhiteboardScanner'
 import VoiceToLesson from './pages/VoiceToLesson'
@@ -20,6 +21,7 @@ import Leaderboard from './pages/Leaderboard'
 import ParentPortal from './pages/ParentPortal'
 import NotificationsPage from './pages/Notifications'
 import AdminEmailTemplates from './pages/AdminEmailTemplates'
+import Profile from './pages/Profile'
 
 export default function App(){
   return (
@@ -35,6 +37,7 @@ export default function App(){
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/planner" element={<LessonPlanner/>} />
         <Route path="/ai" element={<AIGenerator/>} />
+        <Route path="/ai-tools" element={<AITools/>} />
         <Route path="/editor/:id" element={<LessonEditor/>} />
         <Route path="/whiteboard" element={<WhiteboardScanner/>} />
         <Route path="/voice" element={<VoiceToLesson/>} />
@@ -45,6 +48,7 @@ export default function App(){
         <Route path="/communities" element={<Communities/>} />
         <Route path="/chat" element={<Chat/>} />
         <Route path="/admin" element={<Admin/>} />
+        <Route path="/profile" element={<Profile/>} />
       </Routes>
     </BrowserRouter>
   )
