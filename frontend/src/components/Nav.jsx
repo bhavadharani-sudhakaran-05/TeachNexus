@@ -45,28 +45,28 @@ export default function Nav(){
           <div className="logo"></div>
           <span>TeachNexus</span>
         </Link>
-        <nav style={{ display: 'flex', gap: '20px', alignItems: 'center', fontSize: '.95rem', flex: 1, justifyContent: 'flex-end' }}>
-          <Link to="/resources" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.resources')}</Link>
-          <Link to="/planner" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.planner')}</Link>
-          <Link to="/communities" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.communities')}</Link>
-          <Link to="/chat" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.chat')}</Link>
+        <nav className="menu">
+          <Link to="/resources">{t('app.resources')}</Link>
+          <Link to="/planner">{t('app.planner')}</Link>
+          <Link to="/communities">{t('app.communities')}</Link>
+          <Link to="/chat">{t('app.chat')}</Link>
           {token ? (
             <>
-              <Link to="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontWeight: 600 }}>Dashboard</Link>
-              <Link to="/parent" style={{ color: 'var(--muted)', textDecoration: 'none' }}>{t('app.parent_portal')}</Link>
-              <Link to="/notifications" style={{ color: 'var(--muted)', textDecoration: 'none', position: 'relative' }}>
+              <Link to="/dashboard" className="primary">Dashboard</Link>
+              <Link to="/parent">{t('app.parent_portal')}</Link>
+              <Link to="/notifications" style={{ position: 'relative' }}>
                 Notifications
                 {unread > 0 && <span style={{ position: 'absolute', top: -8, right: -8, background: 'var(--danger)', color: 'white', borderRadius: '50%', width: 20, height: 20, fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{unread}</span>}
               </Link>
-              <button onClick={logout} className="btn secondary" style={{ padding: '8px 12px', fontSize: '0.9rem' }}>Logout</button>
+              <button onClick={logout} className="btn secondary">Logout</button>
             </>
           ) : (
             <>
-              <Link to="/login" style={{ color: '#fff', textDecoration: 'none', fontWeight: 600 }}>{t('app.login')}</Link>
-              <Link to="/register" className="btn" style={{ padding: '8px 12px', fontSize: '0.9rem' }}>{t('app.signup')}</Link>
+              <Link to="/login" className="primary">{t('app.login')}</Link>
+              <Link to="/register" className="btn">{t('app.signup')}</Link>
             </>
           )}
-          <select onChange={changeLang} defaultValue={i18n.language} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: 'inherit', padding: '6px 8px', borderRadius: '8px', fontSize: '0.9rem' }}>
+          <select onChange={changeLang} defaultValue={i18n.language} className="lang-select">
             <option value="en">EN</option>
             <option value="es">ES</option>
           </select>
