@@ -15,7 +15,7 @@ export default function Register(){
       const res = await api.post('/auth/register', { name, email, password })
       localStorage.setItem('tn_token', res.data.token)
       localStorage.setItem('tn_user', JSON.stringify(res.data.user))
-      navigate('/dashboard')
+      navigate('/onboarding')
     }catch(err){
       setError(err.response?.data?.message || 'Register failed')
     }

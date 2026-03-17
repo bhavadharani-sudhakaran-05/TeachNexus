@@ -1,9 +1,10 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Nav from './components/Nav'
 import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Onboarding from './pages/Onboarding'
 import Resources from './pages/Resources'
 import ResourceDetail from './pages/ResourceDetail'
 import UploadResource from './pages/UploadResource'
@@ -23,14 +24,19 @@ import NotificationsPage from './pages/Notifications'
 import AdminEmailTemplates from './pages/AdminEmailTemplates'
 import Profile from './pages/Profile'
 
-export default function App(){
+function Layout() {
+  const location = useLocation()
+  const hideNavRoutes = ['/onboarding', '/login', '/register']
+  const shouldHideNav = hideNavRoutes.includes(location.pathname)
+
   return (
-    <BrowserRouter>
-      <Nav />
+    <>
+      {!shouldHideNav && <Nav />}
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/onboarding" element={<Onboarding/>} />
         <Route path="/resources" element={<Resources/>} />
         <Route path="/resources/upload" element={<UploadResource/>} />
         <Route path="/resources/:id" element={<ResourceDetail/>} />
@@ -50,6 +56,14 @@ export default function App(){
         <Route path="/admin" element={<Admin/>} />
         <Route path="/profile" element={<Profile/>} />
       </Routes>
+    </>
+  )
+}
+
+export default function App(){
+  return (
+    <BrowserRouter>
+      <Layout />
     </BrowserRouter>
   )
 }
