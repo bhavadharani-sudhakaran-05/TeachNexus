@@ -853,25 +853,3 @@ export default function UploadResource() {
     </div>
   )
 }
-                required
-                style={{ width: '100%', padding: '10px 12px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: 'var(--text-primary)', fontSize: '1rem' }} 
-              />
-            </div>
-          </div>
-          
-          <div style={{ padding: '12px', backgroundColor: 'rgba(0, 212, 255, 0.05)', border: '1px dashed rgba(0, 212, 255, 0.3)', borderRadius: '8px' }}>
-            <label style={{ display: 'block', fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '8px', fontWeight: 600 }}>📎 Attach File (Optional)</label>
-            <input 
-              type="file"
-              onChange={e=>setFile(e.target.files?.[0]||null)}
-              style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}
-            />
-            {file && <div style={{ fontSize: '0.875rem', color: 'var(--accent)', marginTop: '6px' }}>✓ {file.name}</div>}
-          </div>
-          
-          <button className="btn" style={{ padding: '12px', fontSize: '1rem', fontWeight: 600, marginTop: '12px' }}>✨ Create Resource</button>
-        </form>
-      </div>
-    </div>
-  )
-}
