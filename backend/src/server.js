@@ -29,6 +29,11 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Rate limiting
 app.use(initRateLimiter(15 * 60 * 1000, 100)); // 100 requests per 15 minutes
 
+// Health check endpoint (no rate limit)
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/resources', resourceRoutes);
 

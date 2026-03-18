@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0-alpine
+    container_name: teachnexus-db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: teachnexus
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - teachnexus-network
+
+  backend:
+    build: .
+    container_name: teachnexus-api
+    ports:
+      - "5000:5000"
+    environment:
+      MONGO_URI: mongodb://root:password@mongodb:27017/teachnexus?authSource=admin
+      JWT_SECRET: dev_secret_key_change_in_production
+      PORT: 5000
+      FRONTEND_URL: http://localhost:5173
+      WS_URL: http://localhost:5000
+      # Add other env variables as needed
+    depends_on:
+      - mongodb
+    networks:
+      - teachnexus-network
+    restart: on-failure
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: teachnexus-web
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+      VITE_WS_URL: http://localhost:5000
+    depends_on:
+      - backend
+    networks:
+      - teachnexus-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  teachnexus-network:
+    driver: bridge
