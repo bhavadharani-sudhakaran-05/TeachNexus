@@ -2,12 +2,30 @@ const nodemailer = require('nodemailer')
 const fs = require('fs')
 const path = require('path')
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.example.com',
-  port: process.env.EMAIL_PORT ? Number(process.env.EMAIL_PORT) : 587,
-  secure: process.env.EMAIL_SECURE === 'true',
-  auth: process.env.EMAIL_USER ? { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS } : undefined
-})
+let transporter = null;
+
+function initTransporter() {
+  if (transporter) return transporter;
+  
+  const hasEmailConfig = process.env.EMAIL_USER && process.env.EMAIL_PASS;
+  
+  if (!hasEmailConfig) {
+    console.warn('Email configuration incomplete. Email features will be disabled.');
+    return null;
+  }
+  
+  transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: Number(process.env.EMAIL_PORT || 587),
+    secure: process.env.EMAIL_SECURE === 'true',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+  
+  return transporter;
+}
 
 const templateCache = {}
 
@@ -39,6 +57,12 @@ function renderTemplate(locale, name, vars){
 async function sendBadgeEmail(to, subject, text, html, options = {}){
   if (!to) return false
   try {
+    const emailTransporter = initTransporter();
+    if (!emailTransporter) {
+      console.warn('Email transporter not configured, skipping email send');
+      return false;
+    }
+    
     // if locale provided, try to render templates
     let rendered = { html, text }
     if (options.locale){
@@ -47,12 +71,22 @@ async function sendBadgeEmail(to, subject, text, html, options = {}){
       rendered.text = rendered.text || tpl.text
     }
     const from = process.env.EMAIL_FROM || 'no-reply@teachnexus.example'
-    await transporter.sendMail({ from, to, subject, text: rendered.text || text, html: rendered.html || html })
+    await emailTransporter.sendMail({
+      from,
+      to,
+      subject,
+      text: rendered.text || text,
+      html: rendered.html || html
+    })
     return true
   } catch (e) {
-    console.error('sendBadgeEmail failed', e)
+    console.error('sendBadgeEmail failed', e.message)
     return false
   }
 }
 
-module.exports = { sendBadgeEmail }
+async function sendNotificationEmail(to, subject, text, html) {
+  return sendBadgeEmail(to, subject, text, html);
+}
+
+module.exports = { sendBadgeEmail, sendNotificationEmail, initTransporter }

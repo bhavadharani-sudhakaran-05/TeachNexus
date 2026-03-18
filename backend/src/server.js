@@ -9,10 +9,25 @@ const authRoutes = require('./routes/auth');
 const resourceRoutes = require('./routes/resources');
 const chatRoutes = require('./routes/chat');
 const uploadRoutes = require('./routes/uploads');
+const { initRateLimiter } = require('./middleware/rateLimit');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+// CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
+// Rate limiting
+app.use(initRateLimiter(15 * 60 * 1000, 100)); // 100 requests per 15 minutes
 
 app.use('/api/auth', authRoutes);
 app.use('/api/resources', resourceRoutes);
@@ -76,6 +91,9 @@ async function start() {
     // Admin email templates editor
     const emailTemplates = require('./routes/emailTemplates');
     app.use('/api/admin/templates', emailTemplates);
+
+    // Global error handler
+    app.use(errorHandler);
 
     server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (err) {
