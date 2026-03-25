@@ -4,6 +4,8 @@ import Nav from './components/Nav'
 import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import Onboarding from './pages/Onboarding'
 import Resources from './pages/Resources'
 import ResourceDetail from './pages/ResourceDetail'
@@ -26,8 +28,8 @@ import Profile from './pages/Profile'
 
 function Layout() {
   const location = useLocation()
-  const hideNavRoutes = ['/onboarding', '/login', '/register']
-  const shouldHideNav = hideNavRoutes.includes(location.pathname)
+  const hideNavRoutes = ['/onboarding', '/login', '/register', '/forgot-password', '/reset-password']
+  const shouldHideNav = hideNavRoutes.includes(location.pathname) || location.pathname.startsWith('/reset-password')
 
   return (
     <>
@@ -36,6 +38,8 @@ function Layout() {
         <Route path="/" element={<Landing/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
+        <Route path="/reset-password" element={<ResetPassword/>} />
         <Route path="/onboarding" element={<Onboarding/>} />
         <Route path="/resources" element={<Resources/>} />
         <Route path="/resources/upload" element={<UploadResource/>} />

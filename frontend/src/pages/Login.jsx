@@ -78,7 +78,7 @@ export default function Login(){
               <input type="checkbox" checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} />
               <span>Remember me</span>
             </label>
-            <a href="#">Forgot password?</a>
+            <Link to="/forgot-password">Forgot password?</Link>
           </div>
 
           {/* Sign In Button */}
